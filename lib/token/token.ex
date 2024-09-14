@@ -25,4 +25,16 @@ defmodule MonkeyLanguage.Token do
     function: "FUNCTION",
     let: "LET",
   }
+
+  def new(type: type, literal: literal) when is_atom(type) and is_binary(literal) do
+    if Map.has_key?(@types, type) do
+      %__MODULE__{type: type, literal: literal}
+    else
+      raise "Token with type #{inspect(type)} is not defined"
+    end
+  end
+
+  def lookup_ident(ident) do
+    Map.get(@keywords, ident, :ident)
+  end
 end
